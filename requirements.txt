@@ -8,3 +8,4 @@ langchain-google-genai
 langchain-mistralai
 langchain-community
 python-dotenv
+rich

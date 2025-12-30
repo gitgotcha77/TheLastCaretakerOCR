@@ -238,3 +238,24 @@ Therefor I've also added a script to do online analysis with either OpenAI, Mist
 > Can't I just copy & paste like with LM Studio?
 
 Maybe you can, I couldn't ... none of the above LLM providers allowed me to copy & paste the whole TXT file at once.
+
+Anyway, script for querying an online LLM:
+ - OpenAI (default, gpt-5-mini)
+    ```
+    python online_llm.py --textFile 2026-01-01_12-12-12.mkv.ocr.txt
+    ```
+ - Google (gemini-2.5-flash)
+    ```
+    python online_llm.py --textFile 2026-01-01_12-12-12.mkv.ocr.txt --provider google
+    ```
+ - Mistral (mistral-medium-latest)
+    ```
+    python online_llm.py --textFile 2026-01-01_12-12-12.mkv.ocr.txt --provider mistral
+    ```
+ - Anthropic (claude-haiku-4-5)
+    ```
+    python online_llm.py --textFile 2026-01-01_12-12-12.mkv.ocr.txt --provider anthropic
+    ```
+
+Btw. `online_llm.py` outputs LLM Markdown text with `rich`.<br>
+Right now with `rich 14.2.0` it can happen that the Markdown formatting *stops* for long texts.

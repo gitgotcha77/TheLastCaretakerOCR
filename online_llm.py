@@ -4,6 +4,9 @@ import getpass as pkGetPass
 import argparse as pkArgParse
 import datetime as pkDateTime
 
+from rich.console  import Console  as pkRichConsole
+from rich.markdown import Markdown as pkRichMD
+
 from langchain import messages    as pkLcMessages
 from langchain import chat_models as pkLcChatModels
 
@@ -109,19 +112,56 @@ if __name__ == '__main__':
     if nsOps.sResultFile is None or nsOps.sResultFile == '':
         sDT = pkDateTime.datetime.now().strftime('%Y%m%d%H')
         nsOps.sResultFile = f"{nsOps.sTextFile}_{sDT}_p{nsOps.sProvider}_m{nsOps.sModelName}.txt"
-
     with open(nsOps.sTextFile, 'rt') as ioFile:
         sFileContent = ioFile.read()
 
     sModelName = nsOps.sModelName or dDefaultModels.get(nsOps.sProvider, dDefaultModels['openai'])
 
-    sResponse = queryLLM(nsOps.sPrompt, sFileContent, nsOps.sProvider, sModelName, nsOps.sApiKey, nsOps.sApiUrl)
-    if sResponse:
-        print('')
-        print("RESPONSE:")
-        print(sResponse)
-        print('')
+    print('')
+    print(f"RESPONSE FILE: [{nsOps.sResultFile}]")
+    ioOutput = open(nsOps.sResultFile, 'wt', encoding='utf-8')
 
-        with open(nsOps.sResultFile, 'wt', encoding='utf-8') as ioFile:
-            ioFile.write(sResponse)
-            print(f"RESPONSE FILE: [{nsOps.sResultFile}]")
+    sPrompt = nsOps.sPrompt
+
+    riConsole = pkRichConsole()
+    print('')
+    riConsole.print(pkRichMD('# USER'))
+    print(sPrompt)
+
+    sSepUser = "\n=== USER ==================================================\n"
+    sSepLLM  = "\n=== LLM  ==================================================\n"
+
+    while True:
+        ioOutput.write(sSepUser)
+        ioOutput.write(sPrompt)
+
+        print('')
+        riConsole.print(pkRichMD('# LLM'))
+        sResponse = queryLLM(sPrompt, sFileContent, nsOps.sProvider, sModelName, nsOps.sApiKey, nsOps.sApiUrl)
+        if sResponse:
+            riConsole.print(pkRichMD(sResponse, justify='left'))
+            print(sResponse)
+
+            ioOutput.write(sSepLLM)
+            ioOutput.write(sResponse)
+        else:
+            print('? EMPTY ?')
+
+        try:
+            print('')
+            riConsole.print(pkRichMD('# USER'))
+            sPrompt = input("\nEnter your next prompt (or quit/q/exit/e to exit): ").strip()
+
+            if sPrompt.lower() in ('quit', 'exit', 'q', 'e'):
+                print("Goodbye!")
+                break
+
+        except KeyboardInterrupt:
+            print("\n\nInterrupted by user. Exiting...")
+            break
+
+        except Exception as exInput:
+            print(f"An error occurred: {exInput}")
+            print("Please try again or enter 'quit' to exit.")
+
+    print('')
