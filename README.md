@@ -176,7 +176,7 @@ Jonah barely speaks anymore. His voice is thin, his breaths shallow, but when th
 
 The file size should be about 200k and contain all data log entries.
 
-## Final step: analyze Data Logs with an LLM
+## Final step A: analyze story with LM Studio
 Ok ... as I said in the beginning, LLMs are very memory hungry and for the final analysis we need a big context window (Context Length).<br>
 We need at least 60k to fit the whole TXT file.<br>
 So if you want to do that step locally, you also need a model which supports a big context window.
@@ -229,3 +229,12 @@ Second copy and paste the whole TXT file below `Here're all text log entries fro
 At the bottom of the LM Studio window you can see `CONTEXT IS XY % FULL`.<br>
 Keep in mind that most LLM models produce poorer results (hallucination/confabulation) the higher this % value gets.<br>
 Below 60% **should** be ok.
+
+## Final step B: analyze story with online LLM
+I think if you've < 24G VRAM, and want to use LM Studio to analyze the TXT file, it will not work or at least not work very well. 
+
+Therefor I've also added a script to do online analysis with either OpenAI, Mistral, Anthropic or Google Generative AI (Vertex or Studio).
+
+> Can't I just copy & paste like with LM Studio?
+
+Maybe you can, I couldn't ... none of the above LLM providers allowed me to copy & paste the whole TXT file at once.

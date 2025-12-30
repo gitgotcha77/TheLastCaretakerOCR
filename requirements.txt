@@ -1,3 +1,10 @@
 requests
 python-ffmpeg
 tqdm
+langchain
+langchain-openai
+langchain-anthropic
+langchain-google-genai
+langchain-mistralai
+langchain-community
+python-dotenv
