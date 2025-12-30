@@ -116,7 +116,7 @@ if __name__ == '__main__':
     apParser.add_argument('--videoFile'     , dest='sVideoFile'     , help='Video file for OCR processing', required=True)
     apParser.add_argument('--framesPath'    , dest='sFramesPath'    , help='Path for temporary frame files. Def: frames', default='frames')
     apParser.add_argument('--transcribeFile', dest='sTranscribeFile', help='Output file of transcription. If not set video-file.ocr.txt will be used.', default='')
-    apParser.add_argument('--modelName'     , dest='sModelName'     , help='Model name used for OCR. Def: qwen/qwen3-vl-30b', default='qwen/qwen3-vl-30b')
+    apParser.add_argument('--modelName'     , dest='sModelName'     , help='Model name used for OCR. Def: qwen/qwen3-vl-8b', default='qwen/qwen3-vl-8b')
     apParser.add_argument('--fps'           , dest='iFps'           , help='In this case: how fast you changed pages (1 FPS = 1 page per second). Def: 1', default=1)
     apParser.add_argument('--videoHeight'   , dest='iVideoHeight'   , help='Height of recording: used for crop-values. Options: 1080, 1440. Def: 1440', default='1440')
     apParser.add_argument('--crop'          , dest='sCrop'          , help='Crop each frame: left side of each data log entry is useless. Format: W:H:X:Y', default='')
