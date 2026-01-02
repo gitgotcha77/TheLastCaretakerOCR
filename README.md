@@ -1,10 +1,10 @@
 # The Last Caretaker data logs OCR
 
-This is just a fun project to be able to analyze all data log entries from the game `The Last Caretaker`.
-At first, I wasn't really interested in the story of the game, but after some time I got curious.
+This is just a fun project, to be able to analyze all data log entries from the game `The Last Caretaker`, and chat about it with an LLM.<br>
+At first, I wasn't really interested in the story of the game, but after some time I got curious.<br>
 I was too lazy to read through all data log pages, order them chronological and then make sense of the story.
 
-Sooo I decided: why not record a video of all data log pages, then extract all as plain text and shove it into an LLM?
+**Sooo I decided: why not record a video of all data log pages, then extract all as plain text and shove it into an LLM?**
 
 Yes you can argue that that's even more work, but hey I'm a programmer and I already did similar stuff, and it is a funny little project.
 
