@@ -15,9 +15,14 @@ Skip the page navigation stuff at the bottom like 'PgDn Scroll down' and 'PgUp S
 """
 
 dCropValues = {
-    '1080': '640:780:960:240',
+    '720' : '413:504:648:157',
+    '1080': '623:765:971:239',
     '1440': '830:952:1297:316',
+    '2560': '1498:1804:2293:556',
 }
+
+sCropValues = str(list(dCropValues.keys()))
+sCropValues = sCropValues[1:-1]
 
 
 def getFrames(sVideoFile: str, sFramesPath: str, iFps: int = 1, iScaleWidth: int = -1, sCrop: str = '') -> list:
@@ -38,10 +43,13 @@ def getFrames(sVideoFile: str, sFramesPath: str, iFps: int = 1, iScaleWidth: int
 
     try:
         ffInst = pkFfmpeg.FFmpeg()
-        ffInst.input(sVideoFile).output(sOutputFile, qscale=2, vf=sVF, loglevel='quiet').execute()
+        ffInst.input(sVideoFile).output(sOutputFile, qscale=2, vf=sVF).execute()
 
-    except Exception as e:
-        print(f"Error extracting frames: {e}")
+    except Exception as exFfmpeg:
+        print(f"Error extracting frames: {exFfmpeg}")
+        print(f"Video file: {sVideoFile}")
+        print(f"Output file: {sOutputFile}")
+        print(f"Video filter: {sVF}")
         exit(2)
 
     lFrames = sorted([f for f in pkOS.listdir(sFramesPath) if f.endswith('.jpg')])
@@ -118,7 +126,7 @@ if __name__ == '__main__':
     apParser.add_argument('--transcribeFile', dest='sTranscribeFile', help='Output file of transcription. If not set video-file.ocr.txt will be used.', default='')
     apParser.add_argument('--modelName'     , dest='sModelName'     , help='Model name used for OCR. Def: qwen/qwen3-vl-8b', default='qwen/qwen3-vl-8b')
     apParser.add_argument('--fps'           , dest='iFps'           , help='In this case: how fast you changed pages (1 FPS = 1 page per second). Def: 1', default=1)
-    apParser.add_argument('--videoHeight'   , dest='iVideoHeight'   , help='Height of recording: used for crop-values. Options: 1080, 1440. Def: 1440', default='1440')
+    apParser.add_argument('--videoHeight'   , dest='iVideoHeight'   , help=f"Height of recording: used for crop-values. {sCropValues}. Def: 1080", default='1080')
     apParser.add_argument('--crop'          , dest='sCrop'          , help='Crop each frame: left side of each data log entry is useless. Format: W:H:X:Y', default='')
     apParser.add_argument('--resize'        , dest='iResize'        , help='Some models need a specific image size. Resize is done after crop. Def: -1', default=-1)
     apParser.add_argument('--apiKey'        , dest='sApiKey'        , help='Optional API key, but LM Studio should not need one.')
@@ -129,26 +137,28 @@ if __name__ == '__main__':
 
     if nsOps.iVideoHeight not in dCropValues:
         if nsOps.sCrop != '':
-            sCropValues = nsOps.sCrop
+            sCropValue = nsOps.sCrop
         else:
             print('')
-            print('Right now I\'ve only crop-values for 1080p or 1440p.')
+            print(f"Right now I've only crop-values for: {sCropValues}.")
             print('However you can specify your own values with --crop W:H:X:Y.')
-            print('Check FFMPEG documentation for more details.')
+            print('Have a look at "crop_values_example.jpg" on how to get those values.')
             print('')
             exit(1)
     else:
-        sCropValues = dCropValues[nsOps.iVideoHeight]
+        sCropValue = dCropValues[nsOps.iVideoHeight]
 
     if nsOps.sTranscribeFile == '':
         nsOps.sTranscribeFile = f"{nsOps.sVideoFile}.ocr.txt"
 
     pkOS.makedirs(nsOps.sFramesPath, exist_ok=True)
 
-    lFrameFiles = getFrames(nsOps.sVideoFile, nsOps.sFramesPath, nsOps.iFps, nsOps.iResize, sCropValues)
+    lFrameFiles = getFrames(nsOps.sVideoFile, nsOps.sFramesPath, nsOps.iFps, nsOps.iResize, sCropValue)
 
     print('')
     print(f"Transcribing to [{nsOps.sTranscribeFile}] ...")
+    print(f"You can have a look at the file during the transcribe process")
+
     with open(nsOps.sTranscribeFile, 'w', encoding='utf-8') as ioTXT:
 
         sResult = ''
