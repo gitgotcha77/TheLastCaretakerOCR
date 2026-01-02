@@ -6,6 +6,9 @@ __pycache__/
 frames/
 ocr/
 var/
+*.ocr.txt
+*.mkv
+*.mp4
 
 # Environments
 .env.*
