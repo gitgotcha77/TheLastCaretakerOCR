@@ -10,7 +10,7 @@ Write-Host ""
 Write-Host "OCR process ..." -ForegroundColor Yellow
 
 # OCR script call
-& $sVenvPython $sOcrScript --videoFile $sVideoFile --videoHeight $sVideoHeight --fps $sVideoFps
+& $sVenvPython $sOcrScript
 
 Write-Host "OCR done!" -ForegroundColor Green
 

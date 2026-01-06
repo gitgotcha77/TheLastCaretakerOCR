@@ -1,7 +1,3 @@
-$sVideoFile   = "TLC_DataLogs_1080.mkv"
-$sVideoHeight = 1080
-$sVideoFps    = 1
-
 $sProjectDir = $PSScriptRoot
 
 $sPythonDir  = Join-Path $sProjectDir "python"

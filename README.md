@@ -22,39 +22,31 @@ Please have a look at a tutorial on how to do that.
 You can use an online metronom for it ;)<br>
 Seriously, I use one too, every time.
 
-1 page per second = 1 FPS is the default value in the OCR script.
+1 page per second is the default value in the OCR script.
 
 So:
  - start your game
  - walk to a terminal and select data logs
  - start your recording
- - select each page and try to keep a rhythm of ~ 1 page per second = 1 FPS
+ - select each page and try to keep a rhythm of ~ 1 page per second = 1 PPS
  - don't forget to scroll up/down on longer pages with Page-Up/-Down
  - stop recording once you've selected all data logs and pages
  - the duration should be around 3-4 minutes
 
-For me, OBS Studio will create a video file looking like this `2026-01-01_12-12-12.mkv`.
+For me, OBS Studio will create a video file looking like this `2026-01-01_12-12-12.mkv`. Copy your video file in here.<br>
 
-The default video file for the OCR script is `TLC_DataLogs_1080.mkv` so rename your video file and copy it here.<br>
-1080 is my default height the game is running at.
+Supported video heights are `720`, `1080`, `1440` and `2560`.
 
-If you want to use a different video file and/or a different height/resolution, edit `config.ps1` and change these 3 lines:
-```
-$sVideoFile   = "TLC_DataLogs_1080.mkv"
-$sVideoHeight = 1080
-$sVideoFps    = 1
-```
-Supported heights are `720`, `1080`, `1440` and `2560`.
-
-If you want to use a different height/resolution and/or a different FPS value, edit `2 Run OCR.ps1` and change this line:
+If you recorded your video in a different resolution/height, you have to specify correct crop-values by yourself.<br>
+Edit `2 Run OCR.ps1` and change this line:
 ```
 # OCR script call
-& $sVenvPython $sOcrScript --videoFile $sVideoFile --videoHeight $sVideoHeight --fps $sVideoFps
+& $sVenvPython $sOcrScript
 ```
 to
 ```
 # OCR script call
-& $sVenvPython $sOcrScript --videoFile $sVideoFile --videoHeight $sVideoHeight --fps 123 --crop "X:Y:W:H"
+& $sVenvPython $sOcrScript --videoHeight 1234 --crop "X:Y:W:H"
 ```
 - X:Y top-left starting position of the data log page area
 - W:H width & height of data log page area
@@ -66,7 +58,7 @@ Have a look at `crop_values_example.jpg` for an example and how to get those val
 I use FFmpeg to extract one image per second from your recording.<br>
 Ideally we want one `unique` page per image, no missing pages and no duplicate pages.<br> 
 Missing pages would be bad. Duplicate pages shouldn't be a big problem, because the LLM should be able to detect them.<br>
-If you're confitent you can do a consistent rhythm of 5 pages per second, go for it. Adjust the FPS with passing `--fps 5` to my OCR script. 
+If you're confitent you can do a consistent rhythm of 5 pages per second, go for it. 
 
 
 ## LM Studio setup
@@ -94,7 +86,7 @@ Some usable OCR models are:
  Some usable chat models are:
  - `GPT OSS 20B` that's the default in the local LLM chat script
  - `Ministral 3 14B`
- - `LLama 3.2 3B instruct` as a low-VRAM local chat option
+ - `SmoLLM3 3B` as a low-VRAM local chat option
 
 For OCR you can download and use other models with a yellow `eye` icon. The icon tells you that the model has `vision` capabilities.<br>
 There are also explicit OCR models, f.e. `allenai/olmocr-2-7b`, however for some reason I could not get a correct text result with this model.
@@ -113,8 +105,8 @@ Enable the LM Studio API by clicked right next to `Status: Stopped`.<br>
 Now click at the top `Select a model to load`, then enable `Manually choose model load parameters`, and then select the model you've downloaded.<br>
 You will see a list with many parameters.<br>
 What I would recommend to change is:
- - for models used with OCR set `Context Length` to 10000 (like all Qwen3 Vl)
- - for models used to chat set `Context Length` to 80000 (or higher if you can, like GPT OSS 20B or Ministral 3 14B)
+ - for models used with OCR, set `Context Length` to 10000 (like all Qwen3 Vl)
+ - for models used to chat, set `Context Length` to 80000 (or higher if you can, like GPT OSS 20B or Ministral 3 14B)
  - enable `Show advanced settings`
  - enable `Flash Attention`
  - enable `Remember settings for ...`
@@ -133,22 +125,28 @@ Q8 - Q4 should be ok.
 
 ## Automatic setup
 Right-click `1 Setup Project.ps1` -> `Run in PowerShell`.<br>
-This will install Python 3.13 (+ needed packages) and FFMPEG inside the project folder.<br>
-Also start `LM Studio` with enabled API, and the LLM you want to use, downloaded.<br>
+This will download and extract Python 3.13 (+ needed packages) and FFMPEG inside the project folder.
+
+**PowerShell will ask you if you trust `1 Setup Project.ps1` and `config.ps1`.** (because "1 Setup Project.ps1" includes "config.ps1")<br>
+Well ... you have to trust me here :)
 
 If you want to do everything manually, or understand more what's going on, or have more control over it, scroll down to the first `Manual step: ...`.
 
 
 ## OCR process
-Right-click `2 Run OCR.ps1` -> `Run in PowerShell`. This will extract video frames and send them to `LM Studio`.<br>
+Right-click `2 Run OCR.ps1` -> `Run in PowerShell`. (again you will be asked twice to trust the PowerShell scripts)<br>
+`2 Run OCR.ps1` will ask you which video file should be used, height and PPS values.<br>
+This will extract video frames, send them to `LM Studio` and save the result in `VIDEO_FILENAME.ocr.txt`.<br>
 Depending on your hardware, and used model, this might take 20 - 60 minutes.<br>
-During the OCR process you can already look at `TLC_DataLogs_1080.mkv.ocr.txt`.
+During the OCR process you can already look at `VIDEO_FILENAME.ocr.txt`.
+Remember also start `LM Studio` with enabled API, and have the LLM you want to use already downloaded.<br>
 
 
 ## LLM chat
-Right-click `3 Local LLM chat.ps1` -> `Run in PowerShell` if you want to use `LM Studio`.
-Right-click `3 Online LLM chat DE.ps1` -> `Run in PowerShell` if you want to use the default online LLM for chatting with a german prompt.
-Right-click `3 Online LLM chat EN.ps1` -> `Run in PowerShell` if you want to use the default online LLM for chatting with an english prompt.
+Right-click `3 LLM chat.ps1` -> `Run in PowerShell`. (again you will be asked twice to trust the PowerShell scripts)<br>
+You will be asked which OCR-text file should be used, LLM provider and model name.
+
+You can also use `LM Studio`, with enabled API, and have the LLM you want to use already downloaded.
 
 
 ## Manual step: Python setup
@@ -193,9 +191,9 @@ uv pip install -r requirements.txt
 
 ## Manual step: start OCR process
 ```
-python ocr_local.py --videoFile TLC_DataLogs_1080.mkv
+python ocr_local.py --videoFile SOME_VIDEO_RECORDING_of_DataLogs.mkv
 ```
-This will create a text file called `TLC_DataLogs_1080.mkv.ocr.txt`.
+This will create a text file called `SOME_VIDEO_RECORDING_of_DataLogs.mkv.ocr.txt`.
 
 Depending on your hardware and the used model, this can take 30 minutes, or even more.
 
@@ -224,7 +222,7 @@ Of course, you can use a different system prompt, f.e. in german.
 
 If you want to use a different model for OCR, call the script like this:
 ```
-python ocr_local.py --videoFile TLC_DataLogs_1080.mkv --modelName "glm-4.6v-flash@q4_k_m" --transcribeFile 2026-01-01_12-12-12.glm46v.en.txt
+python ocr_local.py --videoFile SOME_VIDEO_RECORDING_of_DataLogs.mkv --modelName "glm-4.6v-flash@q4_k_m" --transcribeFile TRANSCRIBE_FILE.glm46v.en.txt
 ```
 To see all possible arguments/options use:
 ```
@@ -341,23 +339,23 @@ Then copy `.env` to `.env.local` and edit it.
 Anyway, my script for chatting with an online LLM:
  - OpenAI (default, gpt-5-mini)
    ```
-   python llm_chat.py --textFile TLC_DataLogs_1080.mkv.ocr.txt
+   python llm_chat.py
    ```
  - Google (gemini-2.5-flash)
    ```
-   python llm_chat.py --textFile TLC_DataLogs_1080.mkv.ocr.txt --provider google
+   python llm_chat.py --provider google
    ```
  - Mistral (mistral-medium-latest)
    ```
-   python llm_chat.py --textFile TLC_DataLogs_1080.mkv.ocr.txt --provider mistral
+   python llm_chat.py --provider mistral
    ```
  - Anthropic (claude-haiku-4-5)
    ```
-   python llm_chat.py --textFile TLC_DataLogs_1080.mkv.ocr.txt --provider anthropic
+   python llm_chat.py --provider anthropic
    ```
  - local LM Studio (whatever you've downloaded, in this example OpenAI's GPT-OSS 20B)
    ```
-   python llm_chat.py --textFile TLC_DataLogs_1080.mkv.ocr.txt --provider openai --modelName "openai/gpt-oss-20b" --apiUrl http://localhost:1234/v1
+   python llm_chat.py --provider lmstudio --modelName "openai/gpt-oss-20b" --apiUrl http://localhost:1234/v1
    ```
    Note: do not use `qwen/qwen3-vl-8b` here. In my tests it ran *forever* and never produced an answer.
    

@@ -7,8 +7,8 @@ Write-Host "Activating Python virtual environment" -ForegroundColor Yellow
 Write-Host "done" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "Local LLM chat ..." -ForegroundColor Yellow
+Write-Host "Starting LLM chat ..." -ForegroundColor Yellow
 
-& $sVenvPython $sLlmScript --textFile "${sVideoFile}.ocr.txt" --provider openai --modelName "openai/gpt-oss-20b" --apiUrl http://localhost:1234/v1
+& $sVenvPython $sLlmScript
 
 Write-Host ""
