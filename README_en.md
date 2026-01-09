@@ -78,7 +78,11 @@ Some usable OCR models are:
  - `GPT OSS 20B` that's the default in the local LLM chat script
  - `Ministral 3 14B`
  - `LLama 3.1 8B`
- - `SmoLLM3 3B` as a low-VRAM local chat option
+ - `SmoLLM3 3B`        as a low-VRAM local chat option
+ - `Granite 4 H Micro` as a low-VRAM local chat option
+
+Note: small LLM (fewer parameters = lower xB value) are more likely to only answer in english.
+Except for DeepSeek maybe, which then may only answers in simplified chinese?
 
 For OCR you can download and use other models with a yellow `eye` icon. The icon tells you that the model has `vision` capabilities.<br>
 There are also explicit OCR models, f.e. `allenai/olmocr-2-7b`, however for some reason I could not get a correct text result with this model.
@@ -154,7 +158,7 @@ Well that's bad if the LLM should *understand* the whole story.<br>
 
 What you can and should do is copy and paste the whole TXT file in the input area.
 
-Here's a totally-incomplete list of LLM models I know:
+Here's a totally-incomplete list of LLM models I know and tested:
 
 | LLM model name       | Max. context length | Memory usage  |
 |----------------------|---------------------|---------------|
@@ -165,15 +169,13 @@ Here's a totally-incomplete list of LLM models I know:
 | Llama 3.1 8B         | 128k                | ~14G with 80k |
 | Phi 4 Mini Reasoning | 128k                | ~13G with 80k |
 | SmolLM 3 3B          | 64k                 | ~7G with 64k  |
+| Granite 4 H Micro    | 1000k               | ~6G with 100k |
 
-The thing is: which one will fit with 60k+ context length?<br>
 On my 4090 I used `gpt-oss-20b` with 80k, so I could also ask some more questions about the story.<br>
 
 Ok, so how do I do it right?
 
 First write what you want the LLM to do, your `system prompt`, f.e. something like this:
-
-**EN / English**
 ```
 I'm playing a game called "The Last Caretaker".
 Help me to unravel the story in details.
@@ -189,25 +191,8 @@ Try to put everything in chronological order by date and describe each chapter i
 At last summarize the story plot.
 Here're all text log entries from each frame:
 ```
-**DE / Deutsch**
-```
-Ich spiele ein Spiel namens „The Last Caretaker”.
-Hilf mir, die Geschichte im Detail zu entschlüsseln.
-Im Spiel habe ich Story-Elemente in Form von Datenprotokollen entdeckt.
-Ich habe ein Video aufgenommen, in dem ich alle Datenprotokollseiten durchgehe, und danach den Text aus jedem Frame extrahiert.
-Daher kann es zu doppelten oder sich überschneidenden Textteilen kommen.
-Jede neue Datenprotokollseite beginnt mit „========== frame_XXXX.jpg ==========”.
-Die erste Zeile danach ist immer der Titel des Kapitels.
-Die zweite Zeile ist der Titel des Unterkapitels.
-Die letzte Zeile kann für die Seitennavigation bestimmt sein, z. B. „PgDn Nach unten scrollen“ und „PgUp Nach oben scrollen“, und kann ignoriert werden.
-Ein Datenprotokolleintrag kann auch ein Datum oder ein Jahr enthalten.
-Versuche, alles chronologisch nach Datum zu ordnen und jedes Kapitel detailliert zu beschreiben.
-Fasse zum Schluss die Handlung der Geschichte zusammen.
-Die Datenprotokolle sind in englischer Sprache, aber antworte immer auf Deutsch.
-Hier sind alle Datenprotokolleintrag aus jedem Frame:
-```
 
-Second copy and paste the whole TXT file below `Here're all text log entries from each frame:` / `Hier sind alle Textprotokolleinträge aus jedem Frame:`, and then submit your query/prompt.
+Second, copy the whole TXT file content, paste it below `Here're all text log entries from each frame:`, and then submit your query/prompt.
 
 At the bottom of the LM Studio window you can see `CONTEXT IS XY % FULL`.<br>
 Keep in mind that some LLM models might produce poor results (hallucination/confabulation) above 60-80%.<br>

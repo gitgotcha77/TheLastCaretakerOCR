@@ -78,7 +78,11 @@ Einige brauchbare OCR-Modelle:
  - `GPT OSS 20B` Standard im lokalen LLM-Chat-Skript
  - `Ministral 3 14B`
  - `LLama 3.1 8B`
- - `SmoLLM3 3B` falls du sehr wenig VRAM hast
+ - `SmoLLM3 3B`        falls du sehr wenig VRAM hast, aber nur Englisch
+ - `Granite 4 H Micro` falls du sehr wenig VRAM hast, aber nur Englisch
+
+Hinweis: kleine LLMs (weniger Parameter = geringerer xB Wert) neigen eher dazu, ausschließlich auf Englisch zu antworten.
+Ausgenommen vielleicht DeepSeek, das dann wohl nur in vereinfachtem Chinesisch antwortet?
 
 Für OCR kannst du auch andere Modelle mit einem gelben `Auge`-Icon herunterladen.
 Das bedeutet, dass das Modell `Vision`-Fähigkeiten hat bzw. den Inhalt eines Bildes erkennen kann.<br>
@@ -99,8 +103,8 @@ Aktiviere die LM Studio API, rechts neben `Status: Stopped`.<br>
 Klicke oben auf `Select a model to load`, aktiviere `Manually choose model load parameters`, und wähle dein Modell.<br>
 Du solltest jetzt eine Liste an Parametern sehen.<br>
 Meine empfohlenen Einstellungen:
- - bei Modellen für OCR, setze `Context Length` auf 10000 (alle Qwen3 Vl Varianten)
- - bei Modellen zum chatten, setze `Context Length` auf 80000+ (bei GPT OSS 20B oder Ministral 3 14B)
+ - bei Modellen für OCR, setze `Context Length` (Kontextfenster) auf 10000 (alle Qwen3 Vl Varianten)
+ - bei Modellen zum chatten, setze `Context Length` (Kontextfenster) auf 80000+ (bei GPT OSS 20B oder Ministral 3 14B)
  - für Chat-Modelle ist 60k das **absolute Minimum**, da der komplette Text aller Datenprotokolle schon ~50k hat
  - aktiviere `Show advanced settings`
  - aktiviere `Flash Attention`
@@ -140,59 +144,40 @@ Vergiss nicht: `LM Studio` muss bereits laufen, die API muss aktiviert sein und 
 Nach dem OCR Prozess, gehe zurück zu `LM Studio` und klicke auf `Eject`, um das Modell aus dem VRAM zu entfernen.
 
 
-## LM Studio chat
-Ok ... as I said in the beginning, LLMs are very memory hungry and for the final analysis we need a big context window (Context Length).<br>
-We need at least 60k to fit the whole OCR text file.<br>
-So if you want to do that step locally, you also need a model which supports a big context window.
+## LM Studio Chat
+Ok ... wie ich gleich zu Beginn gesagt habe, sind LLMs sehr speicherhungrig und für die finale Analyse benötigst du ein großes `Kontextfenster` (Context Length).<br>
+Du brauchst mindestens 60k, um die gesamte OCR‑Textdatei unterzubringen.<br>
+Wenn du diesen Schritt also lokal durchführen möchtest, benötigst du außerdem ein Modell, das ein großes Kontextfenster unterstützt.
 
-# !!! DO NOT DRAG AND DROP THE TXT FILE INTO LM STUDIO CHAT !!!
-> Why not?<br>
-> LM Studio starts to index the file, and it looks ok?
+# !!! DIE TXT‑DATEI NICHT PER DRAG & DROP IN DEN LM STUDIO CHAT ZIEHEN !!!
+> Wieso nicht?<br>
+> LM Studio fängt an die Datei zu indizieren, antwortet, sieht doch alles ok aus?
 
-When you do this, LM Studio will show you `rag-v1` below the input area.<br>
-In our case this is bad. I'll not go into details what RAG is or what it can do and for what cases it is useful.<br> 
+Wenn du das machst, zeigt dir LM Studio unter dem Eingabebereich, `rag-v1` an.<br>
+In unserem Fall ist das schlecht. Ich gehe nicht ins Detail, was RAG ist oder was es kann und in welchen Fällen es nützlich ist.<br>
 
-**tl;dr:** RAG will kind of split up the TXT file and the LLM will NOT *see* all data log entries.<br>
-Well that's bad if the LLM should *understand* the whole story.<br>
+**tl;dr:** RAG teilt die TXT-Datei in Blöcke auf, und das LLM sieht nicht alle Datenprotokolleinträge auf einmal.<br>
+Das ist schlecht, wenn das LLM die ganze Geschichte verstehen soll.<br>
 
-What you can and should do is copy and paste the whole TXT file in the input area.
+Was du tun kannst und solltest, ist die gesamte TXT-Datei zu kopieren und in den Eingabebereich einzufügen.
 
-Here's a totally-incomplete list of LLM models I know:
+Hier eine unvollständige Liste der LLM‑Modelle, die ich kenne und getestet habe:
 
-| LLM model name       | Max. context length | Memory usage  |
-|----------------------|---------------------|---------------|
-| GPT OSS 20B          | 128k                | ~20G with 80k |
-| Ministral 3 14B      | 256k                | ~20G with 80k |
-| Gemma 3 27B          | 256k                | ~60G with 80k |
-| Gemma 3 12B          | 128k                | ~42G with 80k |
-| Llama 3.1 8B         | 128k                | ~14G with 80k |
-| Phi 4 Mini Reasoning | 128k                | ~13G with 80k |
-| SmolLM 3 3B          | 64k                 | ~7G with 64k  |
+| LLM Modellname       | Max. Kontextfenster | Speicherverbrauch | Notiz                      |
+|----------------------|---------------------|-------------------|----------------------------|
+| GPT OSS 20B          | 128k                | ~20G mit 80k      |                            |
+| Gemma 3 27B          | 256k                | ~60G mit 80k      |                            |
+| Gemma 3 12B          | 128k                | ~42G mit 80k      |                            |
+| Llama 3.1 8B         | 128k                | ~14G mit 80k      |                            |
+| Phi 4 Mini Reasoning | 128k                | ~13G mit 80k      | nur für Englisch brauchbar |
+| SmolLM 3 3B          | 64k                 | ~7G mit 64k       | nur für Englisch brauchbar |
+| Granite 4 H Micro    | 1000k               | ~6G with 100k     | nur für Englisch brauchbar |
 
-The thing is: which one will fit with 60k+ context length?<br>
-On my 4090 I used `gpt-oss-20b` with 80k, so I could also ask some more questions about the story.<br>
+Auf meiner 4090 habe ich `gpt-oss-20b` mit 80k verwendet, sodass ich auch noch ein paar weitere Fragen zur Geschichte stellen konnte.<br>
 
-Ok, so how do I do it right?
+Also, wie machst du das richtig?
 
-First write what you want the LLM to do, your `system prompt`, f.e. something like this:
-
-**EN / English**
-```
-I'm playing a game called "The Last Caretaker".
-Help me to unravel the story in details.
-In the game I've discovered story elements as data logs.
-I've recorded a video navigating through all data log pages, and then extracted the text from each frame.
-So there might be duplicated or overlapping text parts.
-Each new data log page starts with "========== frame_XXXX.jpg ==========".
-The first line afterwards is always the chapter title.
-The second line is the sub-chapter title.
-The last line might be for page navigation like "PgDn Scroll down" and "PgUp Scroll up", which can be ignored.
-A data log entry might also include a date or year.
-Try to put everything in chronological order by date and describe each chapter in details.
-At last summarize the story plot.
-Here're all text log entries from each frame:
-```
-**DE / Deutsch**
+Als erstes schreibe was du vom LLM willst, das ist dein `System Prompt`, z.B. sowas wie:
 ```
 Ich spiele ein Spiel namens „The Last Caretaker”.
 Hilf mir, die Geschichte im Detail zu entschlüsseln.
@@ -210,11 +195,12 @@ Die Datenprotokolle sind in englischer Sprache, aber antworte immer auf Deutsch.
 Hier sind alle Datenprotokolleintrag aus jedem Frame:
 ```
 
-Second copy and paste the whole TXT file below `Here're all text log entries from each frame:` / `Hier sind alle Textprotokolleinträge aus jedem Frame:`, and then submit your query/prompt.
+Als zweites, kopiere den gesamten Inhalt der TXT-Datei, füge den Inhalt unter `Hier sind alle Textprotokolleinträge aus jedem Frame:` ein,
+und schicke dann alles ab (Submit).
 
-At the bottom of the LM Studio window you can see `CONTEXT IS XY % FULL`.<br>
-Keep in mind that most LLM models produce poorer results (hallucination/confabulation) the higher this % value gets.<br>
-Below 60% **should** be ok.
+Im unteren Bereich des LM Studio Fensters siehst du `CONTEXT IS XY % FULL`.<br>
+Behalte im Hinterkopf, dass die meisten LLM Modelle bei höheren % schlechtere Ergebnisse liefern (Halluzination/Konfabulation).<br>
+Unter 60% **sollte** OK sein.
 
 
 ## Online LLM Chat (nur mit API Keys möglich)
@@ -250,4 +236,4 @@ Andererseits, habe ich schon erwähnt, dass du nur pro Token-Nutzung bezahlen mu
 Keine fixen monatlichen Abo-Gebühren.<br>
 
 
-## So Long, and Thanks for All the Fish !
+## Macht's gut, und danke für den Fisch !

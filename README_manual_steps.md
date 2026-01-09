@@ -122,17 +122,20 @@ What you can and should do is copy and paste the whole TXT file in the input are
 
 Here's a totally-incomplete list of LLM models I know:
 
-| LLM model name       | Max. context length | Memory usage  |
-|----------------------|---------------------|---------------|
-| GPT OSS 20B          | 128k                | ~20G with 80k |
-| Ministral 3 14B      | 256k                | ~20G with 80k |
-| Gemma 3 27B          | 256k                | ~60G with 80k |
-| Gemma 3 12B          | 128k                | ~42G with 80k |
-| Llama 3.1 8B         | 128k                | ~14G with 80k |
-| Phi 4 Mini Reasoning | 128k                | ~13G with 80k |
-| SmolLM 3 3B          | 64k                 | ~7G with 64k  |
+| LLM model name       | Max. context length | Memory usage  | note                   |
+|----------------------|---------------------|---------------|------------------------|
+| GPT OSS 20B          | 128k                | ~20G with 80k |                        |
+| Ministral 3 14B      | 256k                | ~20G with 80k |                        |
+| Gemma 3 27B          | 256k                | ~60G with 80k |                        |
+| Gemma 3 12B          | 128k                | ~42G with 80k |                        |
+| Llama 3.1 8B         | 128k                | ~14G with 80k |                        |
+| Phi 4 Mini Reasoning | 128k                | ~13G with 80k | only English is viable |
+| SmolLM 3 3B          | 64k                 | ~7G with 64k  | only English is viable |
+| Granite 4 H Micro    | 1000k               | ~6G with 100k | only English is viable |
 
-The thing is: which one will fit with 60k+ context length?<br>
+Note: small LLM (fewer parameters = lower xB value) are more likely to only answer in english.
+Except for DeepSeek maybe, which then may only answers in simplified chinese?
+
 On my 4090 I used `gpt-oss-20b` with 80k, so I could also ask some more questions about the story.<br>
 
 Ok, so how do I do it right?
