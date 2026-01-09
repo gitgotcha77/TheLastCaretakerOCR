@@ -161,12 +161,7 @@ Write-Host "Frames extraction and OCR process: '2 Run OCR.ps1'" -ForegroundColor
 Write-Host ""
 Write-Host "THEN" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "Use local LLM: '3 Local LLM chat.ps1'" -ForegroundColor Green
-Write-Host "This will use GPT-OSS 20B as default."
-Write-Host "or"
-Write-Host "Use online LLM: '3 Online LLM chat EN.ps1'" -ForegroundColor Green
-Write-Host "Use online LLM: '3 Online LLM chat DE.ps1'" -ForegroundColor Green
-Write-Host "This will use OpenAI GPT 5 mini as default."
+Write-Host "Chat with an LLM: '3 LLM chat.ps1'" -ForegroundColor Green
 Write-Host ""
 Write-Host "For more details check README.md"
 
