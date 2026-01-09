@@ -76,7 +76,7 @@ Einige brauchbare OCR-Modelle:
  
  Einige brauchbare Chat-Modelle:
  - `GPT OSS 20B` Standard im lokalen LLM-Chat-Skript
- - `Ministral 3 14B`
+ - `Ministral 3 14B Instruct`
  - `LLama 3.1 8B`
  - `SmoLLM3 3B`        falls du sehr wenig VRAM hast, aber nur Englisch
  - `Granite 4 H Micro` falls du sehr wenig VRAM hast, aber nur Englisch
@@ -96,7 +96,10 @@ Wenn du ein Modell auswählst, zeigt LM Studio unter `Download Options` an, ob d
  - `Partial GPU Offload Possible` => mittel, Modell wird zwischen VRAM und RAM aufgeteilt, GPU und CPU teilen sich die Arbeit
  - `Likely too Large`             => läuft sehr wahrscheinlich gar nicht
 
-Normalerweise willst du `Full GPU Offload Possible` haben.
+Normalerweise willst du `Full GPU Offload Possible` haben.<br>
+Um dir einen Vergleich zu geben, zwischen `Full GPU Offload` und `Partial GPU Offload`, GPT-OSS 20B:
+ - 120 Tokens/s mit `Full`
+ - 7,5 Tokens/s mit `Partial` (50/50, heisst 12 Layers GPU und 12 Layers CPU)
 
 Nach dem Herunterladen eines Modells, gehe zu `Developer`.<br>
 Aktiviere die LM Studio API, rechts neben `Status: Stopped`.<br>
@@ -147,6 +150,7 @@ Nach dem OCR Prozess, gehe zurück zu `LM Studio` und klicke auf `Eject`, um das
 ## LM Studio Chat
 Ok ... wie ich gleich zu Beginn gesagt habe, sind LLMs sehr speicherhungrig und für die finale Analyse benötigst du ein großes `Kontextfenster` (Context Length).<br>
 Du brauchst mindestens 60k, um die gesamte OCR‑Textdatei unterzubringen.<br>
+Bei Modellen mit `Reasoning` eher 80k+, da diese Modelle mehr Tokens in der Ausgabe produzieren.<br>
 Wenn du diesen Schritt also lokal durchführen möchtest, benötigst du außerdem ein Modell, das ein großes Kontextfenster unterstützt.
 
 # !!! DIE TXT‑DATEI NICHT PER DRAG & DROP IN DEN LM STUDIO CHAT ZIEHEN !!!
@@ -163,15 +167,15 @@ Was du tun kannst und solltest, ist die gesamte TXT-Datei zu kopieren und in den
 
 Hier eine unvollständige Liste der LLM‑Modelle, die ich kenne und getestet habe:
 
-| LLM Modellname       | Max. Kontextfenster | Speicherverbrauch | Notiz                      |
-|----------------------|---------------------|-------------------|----------------------------|
-| GPT OSS 20B          | 128k                | ~20G mit 80k      |                            |
-| Gemma 3 27B          | 256k                | ~60G mit 80k      |                            |
-| Gemma 3 12B          | 128k                | ~42G mit 80k      |                            |
-| Llama 3.1 8B         | 128k                | ~14G mit 80k      |                            |
-| Phi 4 Mini Reasoning | 128k                | ~13G mit 80k      | nur für Englisch brauchbar |
-| SmolLM 3 3B          | 64k                 | ~7G mit 64k       | nur für Englisch brauchbar |
-| Granite 4 H Micro    | 1000k               | ~6G with 100k     | nur für Englisch brauchbar |
+| LLM Modellname            | Max. Kontextfenster | Speicherverbrauch | Notiz                      |
+|---------------------------|---------------------|-------------------|----------------------------|
+| GPT OSS 20B               | 128k                | ~16G mit 80k      |                            |
+| Ministral 3 14B Instruct  | 256k                | ~21G with 80k     |                            |
+| Gemma 3 12B               | 128k                | ~43G mit 80k      | VRAM (GPU) + RAM (CPU)     |
+| Llama 3.1 8B              | 128k                | ~14G mit 80k      |                            |
+| Phi 4 Mini Reasoning      | 128k                | ~13G mit 80k      | nur für Englisch brauchbar |
+| SmolLM 3 3B               | 64k                 | ~7G mit 64k       | nur für Englisch brauchbar |
+| Granite 4 H Micro         | 1000k               | ~6G with 100k     | nur für Englisch brauchbar |
 
 Auf meiner 4090 habe ich `gpt-oss-20b` mit 80k verwendet, sodass ich auch noch ein paar weitere Fragen zur Geschichte stellen konnte.<br>
 
@@ -237,3 +241,5 @@ Keine fixen monatlichen Abo-Gebühren.<br>
 
 
 ## Macht's gut, und danke für den Fisch !
+
+P.S.: falls mir jemand einen nVidia DGX Spark schicken will, oder Ryzen AI Max+ 395: GERNE, schreibt mir! :)

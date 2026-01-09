@@ -122,16 +122,15 @@ What you can and should do is copy and paste the whole TXT file in the input are
 
 Here's a totally-incomplete list of LLM models I know:
 
-| LLM model name       | Max. context length | Memory usage  | note                   |
-|----------------------|---------------------|---------------|------------------------|
-| GPT OSS 20B          | 128k                | ~20G with 80k |                        |
-| Ministral 3 14B      | 256k                | ~20G with 80k |                        |
-| Gemma 3 27B          | 256k                | ~60G with 80k |                        |
-| Gemma 3 12B          | 128k                | ~42G with 80k |                        |
-| Llama 3.1 8B         | 128k                | ~14G with 80k |                        |
-| Phi 4 Mini Reasoning | 128k                | ~13G with 80k | only English is viable |
-| SmolLM 3 3B          | 64k                 | ~7G with 64k  | only English is viable |
-| Granite 4 H Micro    | 1000k               | ~6G with 100k | only English is viable |
+| LLM model name           | Max. context length | Memory usage  | note                   |
+|--------------------------|---------------------|---------------|------------------------|
+| GPT OSS 20B              | 128k                | ~16G with 80k |                        |
+| Ministral 3 14B Instruct | 256k                | ~21G with 80k |                        |
+| Gemma 3 12B              | 128k                | ~43G with 80k | VRAM (GPU) + RAM (CPU) |
+| Llama 3.1 8B             | 128k                | ~14G with 80k |                        |
+| Phi 4 Mini Reasoning     | 128k                | ~13G with 80k | only English is viable |
+| SmolLM 3 3B              | 64k                 | ~7G with 64k  | only English is viable |
+| Granite 4 H Micro        | 1000k               | ~6G with 100k | only English is viable |
 
 Note: small LLM (fewer parameters = lower xB value) are more likely to only answer in english.
 Except for DeepSeek maybe, which then may only answers in simplified chinese?

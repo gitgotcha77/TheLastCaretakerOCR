@@ -76,7 +76,7 @@ Some usable OCR models are:
  
  Some usable chat models are:
  - `GPT OSS 20B` that's the default in the local LLM chat script
- - `Ministral 3 14B`
+ - `Ministral 3 14B Instruct`
  - `LLama 3.1 8B`
  - `SmoLLM3 3B`        as a low-VRAM local chat option
  - `Granite 4 H Micro` as a low-VRAM local chat option
@@ -95,6 +95,9 @@ When you select a model, LM Studio should show you `Download Options`, and below
  - `Likely too Large`             => will most likely not run at all, even if split between VRAM and RAM     
 
 Usually you want to go for `Full GPU Offload Possible`.
+To give you a comparison between `Full GPU Offload` and `Partial GPU Offload`, GPT-OSS 20B:
+ - 120 Tokens/s with `Full`
+ - 7.5 Tokens/s with `Partial` (50/50, means 12 Layers GPU and 12 Layers CPU)
 
 If you've downloaded a model, go to `Developer`.<br>
 Enable the LM Studio API by clicked right next to `Status: Stopped`.<br>
@@ -144,6 +147,7 @@ After the OCR process finished, go back to `LM Studio` and click on `Eject` to u
 ## LM Studio chat
 Ok ... as I said in the beginning, LLMs are very memory hungry and for the final analysis we need a big context window (Context Length).<br>
 We need at least 60k to fit the whole OCR text file.<br>
+For models with `Reasoning` more like 80k+, because those models will produces more output tokens.<br>
 So if you want to do that step locally, you also need a model which supports a big context window.
 
 # !!! DO NOT DRAG AND DROP THE TXT FILE INTO LM STUDIO CHAT !!!
@@ -160,16 +164,15 @@ What you can and should do is copy and paste the whole TXT file in the input are
 
 Here's a totally-incomplete list of LLM models I know and tested:
 
-| LLM model name       | Max. context length | Memory usage  |
-|----------------------|---------------------|---------------|
-| GPT OSS 20B          | 128k                | ~20G with 80k |
-| Ministral 3 14B      | 256k                | ~20G with 80k |
-| Gemma 3 27B          | 256k                | ~60G with 80k |
-| Gemma 3 12B          | 128k                | ~42G with 80k |
-| Llama 3.1 8B         | 128k                | ~14G with 80k |
-| Phi 4 Mini Reasoning | 128k                | ~13G with 80k |
-| SmolLM 3 3B          | 64k                 | ~7G with 64k  |
-| Granite 4 H Micro    | 1000k               | ~6G with 100k |
+| LLM model name            | Max. context length | Memory usage  |
+|---------------------------|---------------------|---------------|
+| GPT OSS 20B               | 128k                | ~16G with 80k |
+| Ministral 3 14B Instruct  | 256k                | ~21G with 80k |
+| Gemma 3 12B               | 128k                | ~43G with 80k |
+| Llama 3.1 8B              | 128k                | ~14G with 80k |
+| Phi 4 Mini Reasoning      | 128k                | ~13G with 80k |
+| SmolLM 3 3B               | 64k                 | ~7G with 64k  |
+| Granite 4 H Micro         | 1000k               | ~6G with 100k |
 
 On my 4090 I used `gpt-oss-20b` with 80k, so I could also ask some more questions about the story.<br>
 
@@ -233,3 +236,5 @@ Not like a monthly fixed subscription fee.<br>
 
 
 ## So Long, and Thanks for All the Fish !
+
+P.S.: if someone wants to send me a nVidia DGX Spark, or Ryzen AI Max+ 395: GLADLY, write me! :)
