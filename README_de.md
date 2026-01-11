@@ -221,7 +221,7 @@ Kopiere `.env` zu `.env.local`, bearbeite die Datei und kopiere deinen API Key, 
 Rechts-Klick `3 LLM chat.ps1` -> `Run in PowerShell`. (PowerShell fragt dich wieder 2 mal um Erlaubnis)<br>
 Du wirst nach OCR-Text Datei, Anbieter und Modell gefragt.
 
-> Aber wieso denn der ganze Aufwand mit Entwickler Accounts und API Keys?
+> Aber wieso denn der ganze Aufwand mit Entwickler Accounts und API Keys?<br>
 > Kann ich nicht einfach meinen Prompt / meine Frage eingeben und dann den ganzen Inhalt der OCR-Text Datei kopieren und einzufügen?
 
 Naja vielleicht funktioniert das bei dir, bei mir nicht ... keiner der grossen LLM Anbietern hat mir erlaubt, den kompletten Inhalt der OCR-Text Datei, in ihre WEb-GUI einzufügen.<br>

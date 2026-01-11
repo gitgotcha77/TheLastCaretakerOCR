@@ -10,7 +10,7 @@ Please have a look at a tutorial on how to do that.
 
 **Important notice before you start recording: try to keep a steady rhythm with selecting the next page!**
 
-You can use an online metronom for it ;)<br>
+You can use an online metronome for it ;)<br>
 Seriously, I use one too, every time.
 
 1 page per second is the default value in the OCR script.
@@ -216,7 +216,7 @@ Copy `.env` to `.env.local`, edit it and add your API Key, depending on your pro
 Right-click `3 LLM chat.ps1` -> `Run in PowerShell`. (again you will be asked twice to trust the PowerShell scripts)<br>
 You will be asked which OCR-text file should be used, LLM provider and model name.
 
-> But why all the hustle with creating a developer account and then create an API key?
+> But why all the hustle with creating a developer account and then create an API key?<br>
 > Can't I just write my prompt/question and then copy & paste the whole OCR text file?
 
 Maybe you can, I couldn't ... none of the big online LLM providers allowed me to copy & paste the whole OCR text file at once, into their WEB-GUI.<br>
@@ -237,4 +237,4 @@ Not like a monthly fixed subscription fee.<br>
 
 ## So Long, and Thanks for All the Fish !
 
-P.S.: if someone wants to send me a nVidia DGX Spark, or Ryzen AI Max+ 395: GLADLY, write me! :)
+P.S.: if someone wants to send me an nVidia DGX Spark, or Ryzen AI Max+ 395: GLADLY, write me! :)
