@@ -1,4 +1,5 @@
 import os as pkOS
+import re as pkRE
 import glob as pkGlob
 import base64 as pkB64
 import shutil as pkShUtil
@@ -11,19 +12,9 @@ import tqdm as pkTqdm
 import ffmpeg as pkFfmpeg
 import requests as pkRequests
 
+from tlc_ocr_texts import dCropValues
 from tlc_ocr_texts import dLanguages
 from tlc_ocr_texts import dTexts
-
-
-dCropValues = {
-    720 : '413:504:648:157',
-    1080: '623:765:971:239',
-    1440: '830:952:1297:316',
-    2560: '1498:1804:2293:556',
-}
-
-sCropValues = str(list(dCropValues.keys()))
-sCropValues = sCropValues[1:-1]
 
 
 def getFrames(sVideoFile: str, sFramesPath: str, iPps: int = 1, iScaleWidth: int = -1, sCrop: str = '') -> list:
@@ -44,7 +35,7 @@ def getFrames(sVideoFile: str, sFramesPath: str, iPps: int = 1, iScaleWidth: int
         print(f"Video file: {sVideoFile}")
         print(f"Output file: {sOutputFile}")
         print(f"Video filter: {sVF}")
-        exit(2)
+        exit(3)
 
     lFrames = sorted([f for f in pkOS.listdir(sFramesPath) if f.endswith('.jpg')])
 
@@ -102,6 +93,9 @@ def sendToLLM(sImageB64: str, sModelName: str, sPrompt: str, sImageMT: str = 'im
 
 
 if __name__ == '__main__':
+    sCropValues = str(list(dCropValues.keys()))
+    sCropValues = sCropValues[1:-1]
+
     # qwen/qwen3-vl-8b          # ~  9s per frame
     # qwen/qwen3-vl-30b         # ~  3s per frame, needs 24G
     # google/gemma-3-27b        # ~ 14s per frame, needs 24G
@@ -130,6 +124,8 @@ if __name__ == '__main__':
 
     nsOps = apParser.parse_args()
 
+    reHeight = pkRE.compile(r'\D(720|1080|1440|2560)\D', pkRE.IGNORECASE)
+
     rcConsole = pkRichConsole()
 
     rcConsole.line()
@@ -152,10 +148,17 @@ if __name__ == '__main__':
         if len(lVideoFiles) > 0:
             rcConsole.print(f"[bold green]{dTexts['video_files']}[/]:")
             for iNdx, sVideoFile in enumerate(lVideoFiles):
-                print(f"  - {iNdx:2d}: {sVideoFile}")
+                sSuffix = ''
+                if not iNdx:
+                    sSuffix = f" ({dTexts['default']})"
+                print(f"  - {iNdx:2d}: {sVideoFile}{sSuffix}")
             iUseVideo = -1
             while iUseVideo < 0 or iUseVideo >= iVideoFiles:
-                iUseVideo = int(rcConsole.input(f"[bold yellow]{dTexts['ask_video']}[/] "))
+                sSelect = rcConsole.input(f"[bold yellow]{dTexts['ask_video']}[/] ")
+                if sSelect == '':
+                    iUseVideo = 0
+                else:
+                    iUseVideo = int(sSelect)
             nsOps.sVideoFile = lVideoFiles[iUseVideo]
         else:
             rcConsole.print(f"[bold red]{dTexts['missing_video']}")
@@ -163,22 +166,32 @@ if __name__ == '__main__':
             exit(1)
     rcConsole.print(f"[bold green]{dTexts['use_video']}[/]: {nsOps.sVideoFile}")
 
+    # try to detect video height from filename
+    lMatches = reHeight.findall(nsOps.sVideoFile)
+    iHeightDefault = 0
+    if len(lMatches) > 0:
+        iHeightDefault = int(lMatches[0])
+    if iHeightDefault < 720 or iHeightDefault > 2560:
+        iHeightDefault = 1080
+
     rcConsole.line()
     if nsOps.iPps is None or nsOps.iPps == '':
         nsOps.iPps = rcConsole.input(f"[bold yellow]{dTexts['ask_pps']}[/] (1 = {dTexts['default']}) ")
         nsOps.iPps = nsOps.iPps.strip()
         if nsOps.iPps == '':
             nsOps.iPps = 1
-    nsOps.iPps = int(nsOps.iPps)
+    if not isinstance(nsOps.iPps, int):
+        nsOps.iPps = int(nsOps.iPps)
     rcConsole.print(f"[bold green]{dTexts['use_pps']}[/]: {nsOps.iPps}")
 
     rcConsole.line()
     if nsOps.iVideoHeight is None or nsOps.iVideoHeight == '':
-        nsOps.iVideoHeight = rcConsole.input(f"[bold yellow]{dTexts['ask_height']}[/] (1080 = {dTexts['default']}) ")
+        nsOps.iVideoHeight = rcConsole.input(f"[bold yellow]{dTexts['ask_height']}[/] ({iHeightDefault} = {dTexts['default']}) ")
         nsOps.iVideoHeight = nsOps.iVideoHeight.strip()
         if nsOps.iVideoHeight == '':
-            nsOps.iVideoHeight = 1080
-    nsOps.iVideoHeight = int(nsOps.iVideoHeight)
+            nsOps.iVideoHeight = iHeightDefault
+    if not isinstance(nsOps.iVideoHeight, int):
+        nsOps.iVideoHeight = int(nsOps.iVideoHeight)
     rcConsole.print(f"[bold green]{dTexts['use_height']}[/]: {nsOps.iVideoHeight}")
 
     if nsOps.sTranscribeFile is None or nsOps.sTranscribeFile == '':

@@ -1,4 +1,11 @@
 
+dCropValues = {
+    720 : '413:504:648:157',
+    1080: '623:765:971:239',
+    1440: '830:952:1297:316',
+    2560: '1498:1804:2293:556',
+}
+
 dDefaultModels = {
     'openai':    'gpt-5-mini',
     'anthropic': 'claude-haiku-4-5',
@@ -12,6 +19,7 @@ dLanguages = {
     'de': 'Deutsch',
 }
 
+
 dTexts = {
     'en': {
         'default': 'default',
@@ -19,16 +27,16 @@ dTexts = {
 I'm playing a game called "The Last Caretaker".
 Help me to unravel the story in details.
 In the game I've discovered story elements as data logs.
-I've recorded a video navigating through all data log pages, and then extract the text from each frame.
+I've recorded a video navigating through all data log pages, and then extracted text from each frame.
 So there might be duplicated or overlapping text parts.
 Each new data log page starts with "========== frame_XXXX.jpg ==========".
 The first line afterwards is always the chapter title.
 The second line is the sub-chapter title.
-The last line might be for page navigation like "PgDn Scroll down" and "PgUp Scroll up", which can be ignored.
+The last line might be for page navigation, like "PgDn Scroll down" or "PgUp Scroll up", and can be ignored.
 A data log entry might also include a date or year.
-Try to put everything in chronological order by date and describe each chapter in details.
+Try to put everything in chronological order by year and date and describe each chapter in details.
 At last summarize the story plot.
-Here're all text log entries from each frame:
+Here're all data log entries from each frame:
 """,
         'ocr_prompt':        'You are an OCR system. Extract all text in the image. '
                              'Return only the text, without any additional commentary, formatting or your thinking process. '
@@ -59,6 +67,10 @@ Here're all text log entries from each frame:
         'use_modelname':     'Selected LLM',
         'history_file':      'File with your LLM chat history',
         'enter_prompt':      'Enter your next prompt (or quit/q/exit/e to exit)',
+        'ask_ccv':           'Should I create a cropped video too? (This will NOT overwrite your current video) (y/N)',
+        'ask_ccv_encoder':   'Your graphic cards GPU manufacturer (amd, nvidia, intel, no idea)',
+        'use_ccv':           'Cropping video with FFMPEG ...',
+        'ccv_file':          'Created video file',
     },
     'de': {
         'default': 'Standard',
@@ -66,17 +78,17 @@ Here're all text log entries from each frame:
 Ich spiele ein Spiel namens „The Last Caretaker”.
 Hilf mir, die Geschichte im Detail zu entschlüsseln.
 Im Spiel habe ich Story-Elemente in Form von Datenprotokollen entdeckt.
-Ich habe ein Video aufgenommen, in dem ich alle Datenprotokollseiten durchgehe, und danach den Text aus jedem Frame extrahiert.
+Ich habe ein Video aufgenommen, in dem ich durch alle Datenprotokollseiten navigiert bin, und dann den Text aus jedem Frame extrahiert.
 Daher kann es zu doppelten oder sich überschneidenden Textteilen kommen.
 Jede neue Datenprotokollseite beginnt mit „========== frame_XXXX.jpg ==========”.
 Die erste Zeile danach ist immer der Titel des Kapitels.
 Die zweite Zeile ist der Titel des Unterkapitels.
-Die letzte Zeile kann für die Seitennavigation bestimmt sein, z. B. „PgDn Nach unten scrollen“ und „PgUp Nach oben scrollen“, und kann ignoriert werden.
+Die letzte Zeile kann für die Seitennavigation bestimmt sein, z.B. „PgDn Scroll down" oder "PgUp Scroll up“, und kann ignoriert werden.
 Ein Datenprotokolleintrag kann auch ein Datum oder ein Jahr enthalten.
-Versuche, alles chronologisch nach Datum zu ordnen und jedes Kapitel detailliert zu beschreiben.
+Versuche, alles chronologisch nach Jahr und Datum zu ordnen und jedes Kapitel detailliert zu beschreiben.
 Fasse zum Schluss die Handlung der Geschichte zusammen.
 Die Datenprotokolle sind in englischer Sprache, aber antworte immer auf Deutsch.
-Hier sind alle Datenprotokolleintrag aus jedem Frame:
+Hier sind alle Datenprotokolleinträge aus jedem Frame:
 """,
         'ocr_prompt':        'You are an OCR system. Extract all text in the image. '
                              'Return only the text, without any additional commentary, formatting or your thinking process. '
@@ -107,5 +119,9 @@ Hier sind alle Datenprotokolleintrag aus jedem Frame:
         'use_modelname':     'Ausgewähltes LLM',
         'history_file':      'Datei mit deinem LLM Chat Verlauf',
         'enter_prompt':      'Gib deine Frage ein (oder quit/q/exit/e um zu beenden)',
+        'ask_ccv':           'Soll ich auch ein zugeschnittenes Video erstellen? (Deine Video-Datei wird NICHT überschrieben) (j/N)',
+        'ask_ccv_encoder':   'Der Hersteller der GPU deiner Grafikkarte (amd, nvidia, intel, k.A.)',
+        'use_ccv':           'Schneide Video mittels FFMPEG ...',
+        'ccv_file':          'Erstellte Video-Datei',
     }
 }
