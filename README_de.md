@@ -135,16 +135,41 @@ Nun ja ... da musst du mir vertrauen :)
 Wenn du alles manuell selber machen willst oder mehr Kontrolle möchtest, geht es [hier](README_manual_steps.md) weiter (leider nur auf Englisch).
 
 
-## OCR Prozess
+## Für die Faulen: Google Gemini
+Tja ... Google Gemini kann Videos verarbeiten. Also Aufnahme rein da, Fragen stellen und Ende der Vorstellung? :)<br>
+Ja und nein.<br>
+
+Ja, auch in der Free-Version kann Gemini Videos verarbeiten, mit einer maximalen Dateigröße von 100 MB und einer Länge von 4 Minuten.<br>
+
+Die AI-Pro-Ultra-Mega-Deluxe Version?<br>
+K.A., 1h Länge + was auch immer in deinen Google-Drive passt?
+
+Wie auch immer, `2 Optional Crop.ps1` hilft dir.<br>
+Rechts-Klick auf `2 Optional Crop.ps1` -> `Mit PowerShell ausführen`. (PowerShell fragt dich wieder 2 mal um Erlaubnis)<br>
+`2 Optional Crop.ps1` fragt dich nach der Videodatei, Höhe und nach deiner Grafikkarte (für schnelleres Video-Encoding).
+
+Wenn das Script fertig ist, hast du eine neue Videodatei `VIDEO_FILENAME.crop-n2-0.5.mp4`.
+
+Das neue Video sollte nur den Bereich, indem der Data Log Text zu sehen ist, beinhalten.<br>
+**-> kleinere Dateigröße**<br>
+Außerdem lässt es jedes 2. Frame weg und reduziert die Bitrate.<br>
+**-> kleinere Dateigröße UND kürzere Dauer**
+
+Damit *solltest* du unter 100 MB und 4 Minuten kommen und kannst somit das Video in der Gemini Web-GUI verwenden.
+
+Aber hey ... das ganze selbst am eigenen PC machen und tun, wäre doch viel interessanter, nicht?
+
+
+## OCR-Prozess
 Rechts-Klick auf `2 Run OCR.ps1` -> `Mit PowerShell ausführen`. (PowerShell fragt dich wieder 2 mal um Erlaubnis)<br>
 `2 Run OCR.ps1` wird dich nach deiner Videodatei, Höhe und PPS Werten fragen.<br>
 Dann werden die Einzelbilder aus dem Video extrahiert, an `LM Studio` gesendet und das Resultat in `VIDEO_FILENAME.ocr.txt` gespeichert.<br>
 Je nach deiner Hardware und Modell dauert das 20 - 60 Minuten.<br>
-Während dem OCR Prozess kannst du dir bereits die OCR-Text Datei `VIDEO_FILENAME.ocr.txt` durchsehen.
+Während dem OCR-Prozess kannst du dir bereits die OCR-Text Datei `VIDEO_FILENAME.ocr.txt` durchsehen.
 
 Vergiss nicht: `LM Studio` muss bereits laufen, die API muss aktiviert sein und das verwendete Modell bereits heruntergeladen.
 
-Nach dem OCR Prozess, gehe zurück zu `LM Studio` und klicke auf `Eject`, um das Modell aus dem VRAM zu entfernen.
+Nach dem OCR-Prozess, gehe zurück zu `LM Studio` und klicke auf `Eject`, um das Modell aus dem VRAM zu entfernen.
 
 
 ## LM Studio Chat

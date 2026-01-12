@@ -132,6 +132,31 @@ Well ... you have to trust me here :)
 If you want to do everything manually, or understand more what's going on, or have more control over it, continue [here](README_manual_steps.md).
 
 
+## For the lazy ones: Google Gemini
+Well ... Google Gemini can process videos. So, put your video in there, ask your questions and done? :)<br>
+Yes and no.<br>
+
+Yes, Gemini can process videos even in the free version, with maximum file size of 100 MB and video length of 4 minutes.<br>
+
+What about the AI-Pro-Ultra-Mega-Deluxe version?<br>
+IDK, 1h length + and whatever fits in your Google-Drive?
+
+Whatever, `2 Optional Crop.ps1` helps you.<br>
+Right-click `2 Optional Crop.ps1` -> `Mit PowerShell ausführen`. (again you will be asked twice to trust the PowerShell scripts)<br>
+`2 Optional Crop.ps1` asks you about a video file, height and about your graphic card (for faster video encoding).
+
+Once the script finishes, you will get a new video file `VIDEO_FILENAME.crop-n2-0.5.mp4`.
+
+THe new video should only show the area of the data log text.<br>
+**-> smaller file size**<br>
+It also omits every second frame and reduces the bit rate.<br>
+**-> smaller file size AND shorter length**
+
+This *should* bring you below 100 MB and 4 minutes, allowing you to use the video in the Gemini web GUI.
+
+Hey... it would be much more interesting to do it all yourself on your own PC, wouldn't it?
+
+
 ## OCR process
 Right-click `2 Run OCR.ps1` -> `Run in PowerShell`. (again you will be asked twice to trust the PowerShell scripts)<br>
 `2 Run OCR.ps1` will ask you which video file should be used, height and PPS values.<br>
