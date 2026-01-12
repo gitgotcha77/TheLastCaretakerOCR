@@ -221,7 +221,7 @@ Ein Datenprotokolleintrag kann auch ein Datum oder ein Jahr enthalten.
 Versuche, alles chronologisch nach Datum zu ordnen und jedes Kapitel detailliert zu beschreiben.
 Fasse zum Schluss die Handlung der Geschichte zusammen.
 Die Datenprotokolle sind in englischer Sprache, aber antworte immer auf Deutsch.
-Hier sind alle Datenprotokolleintrag aus jedem Frame:
+Hier sind alle Datenprotokolleinträge aus jedem Frame:
 ```
 
 Als zweites, kopiere den gesamten Inhalt der TXT-Datei, füge den Inhalt unter `Hier sind alle Textprotokolleinträge aus jedem Frame:` ein,
