@@ -29,3 +29,5 @@ und es ist ein lustiges kleines Projekt.
 Ich empfehle dringend 16 GB+ VRAM.
 
 [Deutsche Anleitung](README_de.md)
+
+Hier gehts zur [Playlist auf YouTube](https://www.youtube.com/playlist?list=PLAAHbo5yKMjDLrDE-SsBOdL9fc7gZLHgk) mit der deutschen Anleitung.
