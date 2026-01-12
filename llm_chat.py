@@ -125,7 +125,11 @@ if __name__ == '__main__':
                 print(f"  - {iNdx:2d}: {sTextFile}")
             iUseFile = -1
             while iUseFile < 0 or iUseFile >= iOcrTextFiles:
-                iUseFile = int(rcConsole.input(f"[bold yellow]{dTexts['ask_ocrtxt']}[/] "))
+                sSelect = rcConsole.input(f"[bold yellow]{dTexts['ask_ocrtxt']}[/] ")
+                if sSelect == '':
+                    iUseFile = 0
+                else:
+                    iUseFile = int(sSelect)
             nsOps.sTextFile = lOcrTextFiles[iUseFile]
         else:
             rcConsole.print(f"[bold red]{dTexts['missing_ocrtxt']}")
