@@ -3,7 +3,7 @@
 ### Update 2:
 
 #### DE
-"Whispers within" Seite 9 enthält einen Cipher-Text. Der Text bereitet Qwen3 VL ziemliche Probleme :)<br>
+`Whispers within` Seite 9 enthält einen Cipher-Text. Der Text bereitet Qwen3 VL ziemliche Probleme :)<br>
 Variante 8B lässt **f**'s weg, 30B macht zu viele **h**'s.<br>
 Ich habe jetzt selber (so einigermaßen gut) Stellen ausgebessert.<br>
 [*TLC_DataLogs_U1_20251228.ocr.txt*](TLC_DataLogs_U1_20251228.ocr.txt) (Update 1 & vorher) und<br>
@@ -12,7 +12,7 @@ die ich bis jetzt gefunden habe.<br>
 Ein paar doppelte Einträge habe ich auch entfernt.
 
 #### EN
-"Whispers within" page 9 contains cipher-text. It looks like Qwen3 VL has quiet some problems detecting it :)<br>
+`Whispers within` page 9 contains cipher-text. It looks like Qwen3 VL has quiet some problems detecting it :)<br>
 Version 8B skips **f**'s, 30B adds too many **h**'s.<br>
 I've fixed a few typos myself (kind of).<br>
 [*TLC_DataLogs_U1_20251228.ocr.txt*](TLC_DataLogs_U1_20251228.ocr.txt) (Update 1 & earlier) and<br>
