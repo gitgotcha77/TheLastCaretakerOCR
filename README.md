@@ -1,5 +1,21 @@
 # The Last Caretaker data logs OCR
 
+**Update 2:**
+
+**DE:**
+"Whispers within" Seite 9 enthält einen Cipher-Text. Der Text bereitet Qwen3 VL ziemliche Probleme :)<br>
+Variante 8B lässt 'f' weg, 30B macht zu viele 'h's.<br>
+Ich habe jetzt selber (so einigermaßen gut) Stellen ausgebessert.
+
+**EN:**
+"Whispers within" page 9 contains cipher-text. It looks like Qwen3 VL has quiet some problem detecting it :)<br>
+Version 8B skips 'f', 30B adds too many 'h's.<br>
+I've fixed a few typos myself (kind of).
+
+=> [**Whispers within 9 Deciphered**](Whispers_within_9.txt)
+
+---
+
 This is just a fun project, to be able to analyze all data log entries from the game `The Last Caretaker`, and chat about it with an LLM.<br>
 At first, I wasn't really interested in the story of the game, but after some time I got curious.<br>
 I was too lazy to read through all data log pages, order them chronological and then make sense of the story.
